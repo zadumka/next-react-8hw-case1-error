@@ -7,10 +7,11 @@ type generateMetadataProps = {
   params: Promise<{ slug: string[] }>;
 };
 
+
 export async function generateMetadata({ params }: generateMetadataProps) {
   const { slug } = await params;
   const tag: Tag | string = slug[0];
-
+  
   return {
     title: `Notes - ${tag === 'All' ? 'All Tags' : tag}`,
     description: `Browse notes tagged with ${
@@ -37,12 +38,12 @@ export async function generateMetadata({ params }: generateMetadataProps) {
 export default async function NotesPage({ params }: generateMetadataProps) {
   const { slug } = await params;
   const tag: Tag | string = slug[0];
-
+  
   const data = await fetchNotes({
     searchText: '',
     page: 1,
     ...(tag && tag !== 'All' && { tag }),
   });
-
+  
   return <NotesClient initialData={data} tag={tag} />;
 }
